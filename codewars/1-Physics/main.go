@@ -8,8 +8,9 @@ import (
 func main() {
 
 	var slice []float64
-	v := 25
-	g := 9.81
+	//
+	v := 25   // velocity
+	g := 9.81 // gravity
 
 	for i := 0; i < v; i++ {
 		v0 := float64(v) * 1000 / 60 / 60
@@ -22,7 +23,7 @@ func main() {
 		highest := slice[0]
 
 		if h < highest {
-			fmt.Println("Distance:", highest, "Time", t)
+			fmt.Println("Highest Distance reached:", highest, "m.", "\nAt Time", t, "s.", "\nWith initial velocity", v, "m/s.")
 			break
 		}
 	}
