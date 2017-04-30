@@ -1,0 +1,26 @@
+package main
+
+import "fmt"
+
+func maxBall(v0 int) int {
+	// h = vt - 0.5gtt
+	t := float64(0.4)
+	g := 9.81 * t * t // total of g*t*t
+
+	// v is in km/h, so requires conversion to m/s (times by 1000 then divide by 60 and by 60)
+	converter := 1000 / 60 / 60
+
+	v := float64(v0) * float64(converter)
+	h := v*t - (0.5 * g)
+
+	return int(h)
+}
+
+func main() {
+	velocity := 25
+	maxball := maxBall(velocity)
+	fmt.Println("Velocity:", velocity, "km/h. Maximum ball height:", maxball, "metres")
+}
+
+//Write a function max_ball with parameter v (in km per hour) that returns the time in
+//tenth of second of the maximum height recorded by the device.
