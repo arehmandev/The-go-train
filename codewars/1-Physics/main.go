@@ -23,10 +23,11 @@ func main() {
 		highest := slice[0]
 
 		if h < highest {
-			fmt.Println("Highest Distance reached:", highest, "m.", "\nAt Time", t, "s.", "\nWith initial velocity", v, "m/s.")
+			//		fmt.Println("Highest Distance reached:", highest, "m.", "\nAt Time", t, "s.", "\nWith initial velocity", v, "m/s.")
 			break
 		}
 	}
+	fmt.Println(slice[0])
 }
 
 // experimental code

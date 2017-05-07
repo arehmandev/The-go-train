@@ -1,0 +1,25 @@
+package clock
+
+import "fmt"
+
+const testVersion = 4
+
+// You can find more details and hints in the test file.
+
+type Clock int
+
+func New(hour, minute int) Clock {
+	t := (hour*60 + minute) % (60 * 24)
+	if t < 0 {
+		t += 60 * 24
+	}
+	return Clock(t)
+}
+
+func (digital Clock) String() string {
+	return fmt.Sprintf("%02d:%02d", digital/60, digital%60)
+}
+
+func (move Clock) Add(minutes int) Clock {
+	return New(0, int(move)+minutes)
+}
