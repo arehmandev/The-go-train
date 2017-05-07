@@ -1,6 +1,6 @@
 package raindrops
 
-import "fmt"
+import "strconv"
 
 const (
 	testVersion = 3
@@ -20,7 +20,7 @@ func Convert(dropnumber int) (dropnoise string) {
 		dropnoise += dropnoise3
 	}
 	if len(dropnoise) == 0 {
-		return fmt.Sprintf("%d", dropnumber)
+		dropnoise = strconv.Itoa(dropnumber)
 	}
 	return
 }
