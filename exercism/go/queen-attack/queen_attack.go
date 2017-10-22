@@ -1,86 +1,31 @@
 package queenattack
 
 import (
-	"fmt"
-	"strconv"
-	"strings"
+	"errors"
+	"math"
 )
 
-const (
-	testVersion = 2
-)
+const testVersion = 2
 
-var alpha = []string{"a", "b", "c", "d", "e", "f", "g", "h"}
-
-// CanQueenAttack -
-func CanQueenAttack(queen1, queen2 string) (attack bool, err error) {
-
-	// Are the pieces overlapping
-	if queen2 == queen1 {
-		return false, fmt.Errorf("Same square")
+func CanQueenAttack(w string, b string) (bool, error) {
+	if len(w) < 2 || len(b) < 2 ||
+		w[0] < 'a' || b[0] < 'a' ||
+		w[0] > 'h' || b[0] > 'h' ||
+		w[1] < '1' || b[1] < '1' ||
+		w[1] > '8' || b[1] > '8' ||
+		(w[0] == b[0] && w[1] == b[1]) {
+		return false, errors.New("invalid position")
 	}
 
-	queenarray1 := strings.Split(queen1, "")
-	// letter
-	queen1x := (queenarray1[0])
-	// number
-	queen1y, err := strconv.Atoi(queenarray1[1])
-	if err != nil {
-		return false, err
+	wx := float64(w[0] - 96)
+	wy := float64(w[1] - 48)
+
+	bx := float64(b[0] - 96)
+	by := float64(b[1] - 48)
+
+	if wx == bx || wy == by || (math.Abs(wx-bx) == math.Abs(wy-by)) {
+		return true, nil
 	}
 
-	// Are the pieces on the board
-	queenarray2 := strings.Split(queen2, "")
-	// letter
-	queen2x := (queenarray2[0])
-	// number
-	queen2y, err := strconv.Atoi(queenarray2[1])
-	if err != nil {
-		return false, err
-	}
-
-	if queen1y > 8 || queen2y > 8 {
-		return false, fmt.Errorf("Off of top of board (numbers)")
-	}
-
-	if queen1y < 1 || queen2y < 1 {
-		return false, fmt.Errorf("Off of bottom of board (numbers)")
-	}
-
-	alphabetstring := strings.Join(alpha, "")
-	if !strings.Contains(alphabetstring, queen1x) || !strings.Contains(alphabetstring, queen2x) {
-		return true, fmt.Errorf("Off of board horizonally (letters)")
-	}
-
-	// If on same axis return true
-	if queen1x == queen2x || queen1y == queen2y {
-		return true, err
-	}
-
-	// If on diagonals return true
-	verticaldiff := queen1y - queen2y
-	fmt.Println(verticaldiff, ": vertical difference")
-
-	horizontalindex1 := SliceIndex(len(alpha), func(i int) bool { return alpha[i] == queen1x })
-	horizontalindex2 := SliceIndex(len(alpha), func(i int) bool { return alpha[i] == queen2x })
-	horizontaldiff := horizontalindex1 - horizontalindex2
-	fmt.Println(horizontaldiff, ": horizonal difference")
-
-	// remove negative by squaring
-	if verticaldiff*verticaldiff == horizontaldiff*horizontaldiff {
-		return true, err
-	}
-
-	return false, err
-
-}
-
-// SliceIndex - Find the index of an element in a slice
-func SliceIndex(limit int, predicate func(i int) bool) int {
-	for i := 0; i < limit; i++ {
-		if predicate(i) {
-			return i
-		}
-	}
-	return -1
+	return false, nil
 }
